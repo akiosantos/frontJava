@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="./img/icon.svg">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro</title>
+
+</head>
+
+<html>
+
+<div class="bodycadastro">
+
+    <body style="overflow-y: hidden; overflow-x: hidden;">
+        <div class="container-cadastro">
+            <h2> Tela de Cadastro</h2>
+            <label for="txt_nome">Nome</label>
+            <input type="text" placeholder="Digite seu Nome" id="txt_nome">
+
+            <label for="txt_usuario">Usuário</label>
+            <input type="text" placeholder="Digite seu usuario" id="txt_usuario">
+
+            <label for="txt_senha">Senha</label>
+            <input type="password" placeholder="Digite sua senha" id="txt_senha">
+
+            <label for="txt_senha_confirma">Confirmar a senha</label>
+            <input type="password" placeholder="Digite sua senha novamente" id="txt_senha_confirma">
+
+            <button onclick="cadastrar()">Cadastrar</button>
+            <button onclick="voltar()">Já tenho cadastro</button>
+        </div>
+
+    </body>
+</div>
+
+</html>
+<script>
+    function cadastrar() {
+        if ($('#txt_senha').val() != $('#txt_senha_confirma').val()) {
+            alert('As senhas não são iguais.')
+            return;
+        }
+
+        var requisicaoUsuario = {
+            "nome": $('#txt_nome').val(),
+            "usuario": $('#txt_usuario').val(),
+            "senha": $('#txt_senha').val()
+        }
+        $.ajax({
+            url: "http://localhost:8082/usuario",
+            type: "POST",
+            data: JSON.stringify(requisicaoUsuario),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = "./login.html"
+                alert("Vem de Turma! Logue com o novo cadastro.")
+            },
+            error: function (request, message, error) {
+                alert("Puxa deu erro na hora de se autenticar... Bora de Turma!")
+            }
+
+        })
+
+    }
+    function voltar() {
+        window.location.href = "./login.html"
+    }
+</script>
